@@ -37,6 +37,19 @@ const clean = textsLocations => iterateThroughFiles(textsLocations)(
     } 
 );
 
+const cleanText = rawXml => {
+    const $ = cheerio.load(rawXml.toString(), {
+        xmlMode: true
+    });
+    const cleanText = $('s').map(
+        (i, el) => $(el).children().map(
+            (i, el) => $(el).text()
+        ).get().join('')
+    ).get();
+    return cleanText.join(' ');
+}
+
 module.exports = {
-    clean
+    clean,
+    cleanText
 };
